@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const StyledHint = styled.img`
   max-height: 300px;
   margin: 0 auto;
-  border-size: 0.4rem;
+  border-width: ${props => props.theme.borderWidth}px;
   border-style: solid;
-  border-color: ${props => props.guessed ? '#44c844' : '#f9c80e'};
+  border-color: ${props => props.guessed ? props.theme.success : props.theme.primary};
   border-radius: 2rem;
 `;
 
@@ -16,4 +16,4 @@ const Hint = (props) => {
   )
 }
 
-export default Hint;
+export default Hint

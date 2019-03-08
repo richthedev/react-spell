@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const StyledLetter = styled.span`
-  ${props => props.guessed ? '' : 'color: #763eab;'}
+  ${props => props.guessed ? '' : `color: ${props.theme.bgLight};`}
 `;
 
 const Letter = (props) => {
@@ -11,4 +11,4 @@ const Letter = (props) => {
   )
 }
 
-export default Letter;
+export default Letter

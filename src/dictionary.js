@@ -1,4 +1,4 @@
-import shuffle from './shuffle';
+import shuffle from './shuffle'
 
 const WORDS = [
   "aigle",
@@ -27,7 +27,7 @@ const WORDS = [
   "tortue",
   "vache",
   "voiture",
-];
+]
 
 export default {
   index: 0,
