@@ -7,7 +7,7 @@ const StyledLetter = styled.span`
 
 const Letter = (props) => {
   return (
-    <StyledLetter {...props}>{props.guessed ? props.letter : '_'}</StyledLetter>
+    <StyledLetter {...props}>{props.guessed ? props.letter : '-'}</StyledLetter>
   )
 }
 

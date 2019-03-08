@@ -6,7 +6,7 @@ const StyledHint = styled.img`
   margin: 0 auto;
   border-width: ${props => props.theme.borderWidth}px;
   border-style: solid;
-  border-color: ${props => props.guessed ? props.theme.success : props.theme.primary};
+  border-color: ${props => props.guessed ? props.theme.success : props.theme.main};
   border-radius: 2rem;
 `;
 
