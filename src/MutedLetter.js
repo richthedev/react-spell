@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledLetter = styled.span`
-  ${props => props.guessed ? '' : `color: ${props.theme.bgLight};`}
+  ${({ guessed, theme }) => guessed ? '' : `color: ${theme.bgLight};`}
 `
 
-const Letter = (props) => {
+const Letter = ({ letter, guessed }) => {
   return (
-    <StyledLetter {...props}>{props.letter}</StyledLetter>
+    <StyledLetter guessed={guessed}>{letter}</StyledLetter>
   )
 }
 

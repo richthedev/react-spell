@@ -9,9 +9,10 @@ const colors = {
 
 export const settings = {
   ALREADY_GUESSED: 0,
+  TIME_BETWEEN_WORDS: 1000,
 }
 
-export const difficulty = {
+export const difficulties = {
   HIDDEN: 0,
   MUTED: 1,
 }

@@ -2,17 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledHint = styled.img`
-  max-height: 300px;
+  max-height: 400px;
   margin: 0 auto;
-  border-width: ${props => props.theme.borderWidth}px;
+  border-width: ${({ theme }) => theme.borderWidth}px;
   border-style: solid;
-  border-color: ${props => props.guessed ? props.theme.success : props.theme.main};
+  border-color: ${({ guessed, theme }) => guessed ? theme.success : theme.main};
   border-radius: 2rem;
 `;
 
-const Hint = (props) => {
+const Hint = ({ word, guessed }) => {
   return (
-    <StyledHint src={`images/${props.word}.jpg`} guessed={props.guessed} />
+    <StyledHint src={`images/${word}.jpg`} guessed={guessed} />
   )
 }
 

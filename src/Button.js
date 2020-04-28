@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledButton = styled.button`
-  background-color: ${props => props.theme.bg};
-  border: ${props => props.theme.borderWidth}px solid ${props => props.disabled ? props.theme.success : props.theme.main};
+  background-color: ${({ theme }) => theme.bg};
+  border: ${({ theme }) => theme.borderWidth}px solid ${({ disabled, theme }) => disabled ? theme.success : theme.main};
   border-radius: 0.5rem;
-  color: ${props => props.disabled ? props.theme.success : props.theme.main};
+  color: ${({ disabled, theme }) => disabled ? theme.success : theme.main};
   cursor: pointer;
   font-size: 1rem;
   padding: 0.6rem;
@@ -15,14 +15,14 @@ const StyledButton = styled.button`
   }
 
   :hover {
-    color: ${props => props.theme.alt};
-    border-color: ${props => props.theme.alt};
+    color: ${({ theme }) => theme.alt};
+    border-color: ${({ theme }) => theme.alt};
   }
 `;
 
-const Button = (props) => {
+const Button = ({ children, ...rest }) => {
   return (
-    <StyledButton {...props}>{props.children}</StyledButton>
+    <StyledButton {...rest}>{children}</StyledButton>
   )
 }
 

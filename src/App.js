@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import KeyboardEventHandler from 'react-keyboard-event-handler'
 import dictionary from './dictionary'
-import { difficulty, settings, theme } from './constants'
+import { difficulties, settings, theme } from './constants'
 import Button from './Button'
 import Hint from './Hint'
 import Score from './Score'
@@ -28,103 +28,84 @@ const StyledSettings = styled.div`
   }
 `
 
-class App extends Component {
-  state = {
-    correctLetters: settings.ALREADY_GUESSED,
-    difficulty: difficulty.HIDDEN,
-    guessed: false,
-    score: 0,
-    word: dictionary.first(),
+const App = () => {
+  const [correctLetters, setCorrectLetters] = useState(settings.ALREADY_GUESSED)
+  const [difficulty, setDifficulty] = useState(difficulties.HIDDEN)
+  const [guessed, setGuessed] = useState(false)
+  const [score, setScore] = useState(0)
+  const [word, setWord] = useState(dictionary.current())
+
+  const cheat = () => {
+    setScore(score - 1)
+    nextLetter()
   }
 
-  cheat = () => {
-    let { score } = this.state
-
-    score--
-    this.nextLetter();
-
-    this.setState({ score })
-  }
-
-  guessLetter = (letter) => {
-    const { correctLetters, word } = this.state
-    let { score } = this.state
+  const guessLetter = (letter) => {
     const correct = letter === word[correctLetters]
 
     // block input between words
-    if (correctLetters === word.length) {
+    if (guessed) {
       return
     }
 
     if (correct) {
-      this.nextLetter()
-      score++
+      nextLetter()
+      setScore(score + 1)
     } else {
-      score = 0
+      setScore(0)
     }
-
-    this.setState({ score })
   }
 
-  nextLetter = () => {
-    const { word } = this.state
-    let { correctLetters, guessed } = this.state
+  const nextLetter = () => {
+    setCorrectLetters(correctLetters + 1)
 
-    correctLetters++
-
-    if (correctLetters === word.length) {
-      guessed = true
-      setTimeout(this.nextWord, 1000)
+    if (correctLetters === word.length - 1) {
+      setGuessed(true)
+      setTimeout(() => nextWord(), settings.TIME_BETWEEN_WORDS)
     }
-
-    this.setState({ correctLetters, guessed })
   }
 
-  nextWord = () => {
-    const word = dictionary.next()
-    const correctLetters = settings.ALREADY_GUESSED
-    const guessed = false
-
-    this.setState({ correctLetters, guessed,  word })
+  const nextWord = () => {
+    setWord(dictionary.next())
+    setCorrectLetters(settings.ALREADY_GUESSED)
+    setGuessed(false)
   }
 
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <StyledApp>
-          <GlobalStyle />
-          <KeyboardEventHandler
-            handleKeys={['alphabetic']}
-            onKeyEvent={this.guessLetter} />
-          <Score score={this.state.score} />
-          <Hint
-            word={this.state.word}
-            guessed={this.state.guessed} />
-          <Word
-            word={this.state.word}
-            difficulty={this.state.difficulty}
-            guessed={this.state.guessed}
-            correctLetters={this.state.correctLetters} />
-          <KeyboardEventHandler
-            handleKeys={['alphabetic']}
-            onKeyEvent={this.guessLetter}>
-            <StyledSettings>
-              <Button
-                onClick={() => this.setState({ difficulty: difficulty.HIDDEN })}>cachées</Button>
-              <Button
-                onClick={() => this.setState({ difficulty: difficulty.MUTED })}>estompées</Button>
-              <Button
-                onClick={this.cheat}
-                disabled={this.state.guessed}>indice</Button>
-              <Button
-                onClick={this.nextWord}
-                disabled={this.state.guessed}>suivant</Button>
-            </StyledSettings>
-          </KeyboardEventHandler>
-        </StyledApp>
-      </ThemeProvider>
-    )
-  }
+  return (
+    <ThemeProvider theme={theme}>
+      <StyledApp>
+        <GlobalStyle />
+        <KeyboardEventHandler
+          handleKeys={['alphabetic']}
+          onKeyEvent={letter => guessLetter(letter)} />
+        <Score score={score} />
+        <Hint
+          word={word}
+          guessed={guessed} />
+        <Word
+          word={word}
+          difficulty={difficulty}
+          guessed={guessed}
+          correctLetters={correctLetters} />
+        <KeyboardEventHandler
+          handleKeys={['alphabetic']}
+          onKeyEvent={letter => guessLetter(letter)}>
+          <StyledSettings>
+            <Button
+              onClick={() => setDifficulty(difficulties.HIDDEN)}>cachées</Button>
+            <Button
+              onClick={() => setDifficulty(difficulties.MUTED)}>estompées</Button>
+            <Button
+              onClick={() => cheat()}
+              disabled={guessed}>indice</Button>
+            <Button
+              onClick={() => nextWord()}
+              disabled={guessed}>suivant</Button>
+          </StyledSettings>
+        </KeyboardEventHandler>
+      </StyledApp>
+    </ThemeProvider>
+  )
 }
 
 export default App
